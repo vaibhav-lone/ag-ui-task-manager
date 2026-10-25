@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AG-UI Task Manager
 
-## Getting Started
+A small learning project for exploring how an AI agent can interact with a
+React application through AG-UI and CopilotKit. The assistant can manage the
+same task list that is rendered on the page.
 
-First, run the development server:
+## Run locally
+
+Install dependencies and start the Next.js development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). The assistant uses the
+Google Gemini model configured in `src/app/api/copilotkit/[[...slug]]/route.ts`;
+configure the corresponding provider API key in `.env.local` to use it.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How the shared-state demo works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`src/app/task-manager.tsx` owns the task list in React state and registers
+frontend tools with CopilotKit's `useFrontendTool` hook. When the assistant
+calls a tool, its handler updates that state, and React immediately renders the
+change in the list and summary counts.
 
-## Learn More
+The assistant can:
 
-To learn more about Next.js, take a look at the following resources:
+- List tasks and their IDs with `list_tasks`.
+- Add a task with `add_task`.
+- Rename a task with `update_task`.
+- Mark a task active or complete with `set_task_status`.
+- Remove a task with `delete_task`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Try prompts like “Add a task to review my notes” or “List my tasks and mark the
+first one complete.” You can also add, complete, and delete tasks using the
+page controls. Both the assistant and the controls affect the same state.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Task data is held in memory for this demo and resets when the page is refreshed.
