@@ -4,6 +4,10 @@ A small learning project for exploring how an AI agent can interact with a
 React application through AG-UI and CopilotKit. The assistant can manage the
 same task list that is rendered on the page.
 
+## Screenshot
+
+![Taskflow task manager with the CopilotKit assistant](./public/taskflow-screenshot.png)
+
 ## Run locally
 
 Install dependencies and start the Next.js development server:
